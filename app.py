@@ -702,12 +702,18 @@ def home():
         & (season_dates >= opening_date)
     ].sort_values("gameDateTimeEst")
 
+    if eligible_df.empty:
+        return render_template(
+            "index.html",
+            new_hoopagamis=[],
+            broken_hoopagamis=[],
+            season_start_date=opening_date.strftime("%B %-d, %Y"),
+        )
+
     historical_df = df[
         (df["gameType"].astype(str) != "Excluded")
         & (season_dates < opening_date)
     ]
-
-    seen_counts = historical_df["statline_key"].value_counts().to_dict()
 
     seen_counts = historical_df["statline_key"].value_counts().to_dict()
 
