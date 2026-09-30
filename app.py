@@ -214,7 +214,10 @@ def get_all_time_hoopagami_leaderboard():
     return leaderboard.to_dict("records")
 
 
-ALL_TIME_HOOPAGAMI_LEADERBOARD = get_all_time_hoopagami_leaderboard()
+if BOOTSTRAP_ONLY:
+    ALL_TIME_HOOPAGAMI_LEADERBOARD = []
+else:
+    ALL_TIME_HOOPAGAMI_LEADERBOARD = get_all_time_hoopagami_leaderboard()
 
 
 def get_current_nba_players():
@@ -237,7 +240,10 @@ def get_current_nba_players():
     return players
 
 
-CURRENT_NBA_PLAYERS = get_current_nba_players()
+if BOOTSTRAP_ONLY:
+    CURRENT_NBA_PLAYERS = set()
+else:
+    CURRENT_NBA_PLAYERS = get_current_nba_players()
 
 
 def get_all_time_hoopagami_ranks():
@@ -269,7 +275,10 @@ def get_all_time_hoopagami_ranks():
     }
 
 
-ALL_TIME_HOOPAGAMI_RANKS = get_all_time_hoopagami_ranks()
+if BOOTSTRAP_ONLY:
+    ALL_TIME_HOOPAGAMI_RANKS = {}
+else:
+    ALL_TIME_HOOPAGAMI_RANKS = get_all_time_hoopagami_ranks()
 
 def get_available_seasons():
     dates = pd.to_datetime(df["gameDateTimeEst"], errors="coerce").dropna()
@@ -399,7 +408,10 @@ def get_most_broken_leaderboard():
     return leaderboard.to_dict("records")
 
 
-MOST_BROKEN_LEADERBOARD = get_most_broken_leaderboard()
+if BOOTSTRAP_ONLY:
+    MOST_BROKEN_LEADERBOARD = []
+else:
+    MOST_BROKEN_LEADERBOARD = get_most_broken_leaderboard()
 
 
 def get_current_players_most_broken_leaderboard():
