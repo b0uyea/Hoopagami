@@ -11,8 +11,12 @@ DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR))
 CSV_PATH = DATA_DIR / "NBA_PlayerStatistics_Complete.csv"
 RANKS_PATH = DATA_DIR / "statline_ranks.csv"
 
-df = pd.read_csv(CSV_PATH)
-ranks_df = pd.read_csv(RANKS_PATH)
+if os.environ.get("BOOTSTRAP_ONLY") == "1":
+    df = pd.DataFrame()
+    ranks_df = pd.DataFrame()
+else:
+    df = pd.read_csv(CSV_PATH)
+    ranks_df = pd.read_csv(RANKS_PATH)
 
 @app.context_processor
 def inject_site_stats():
