@@ -183,7 +183,11 @@ def get_historical_hoopagami_activity():
     return new_hoopagamis, broken_hoopagamis
 
 
-HISTORICAL_NEW_HOOPAGAMIS, HISTORICAL_BROKEN_HOOPAGAMIS = get_historical_hoopagami_activity()
+if BOOTSTRAP_ONLY:
+    HISTORICAL_NEW_HOOPAGAMIS = []
+    HISTORICAL_BROKEN_HOOPAGAMIS = []
+else:
+    HISTORICAL_NEW_HOOPAGAMIS, HISTORICAL_BROKEN_HOOPAGAMIS = get_historical_hoopagami_activity()
 
 
 def get_all_time_hoopagami_leaderboard():
