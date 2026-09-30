@@ -11,7 +11,9 @@ DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR))
 CSV_PATH = DATA_DIR / "NBA_PlayerStatistics_Complete.csv"
 RANKS_PATH = DATA_DIR / "statline_ranks.csv"
 
-if os.environ.get("BOOTSTRAP_ONLY") == "1":
+BOOTSTRAP_ONLY = os.environ.get("BOOTSTRAP_ONLY") == "1"
+
+if BOOTSTRAP_ONLY:
     df = pd.DataFrame()
     ranks_df = pd.DataFrame()
 else:
@@ -86,33 +88,34 @@ def normalize_statline_key(key):
 
     return "/".join(normalized)
 
-ranks_df["statline_key"] = ranks_df["statline_key"].apply(normalize_statline_key)
+if not BOOTSTRAP_ONLY:
+    ranks_df["statline_key"] = ranks_df["statline_key"].apply(normalize_statline_key)
 
-df["gameDateTimeEst"] = pd.to_datetime(df["gameDateTimeEst"])
-df["historical_untracked_defense"] = (
-    df["gameDateTimeEst"] < pd.Timestamp("1973-10-01")
-)
+    df["gameDateTimeEst"] = pd.to_datetime(df["gameDateTimeEst"])
+    df["historical_untracked_defense"] = (
+        df["gameDateTimeEst"] < pd.Timestamp("1973-10-01")
+    )
 
-df["statline_key"] = (
-    df["points"].astype(int).astype(str) + "/" +
-    df["reboundsTotal"].astype(int).astype(str) + "/" +
-    df["assists"].astype(int).astype(str) + "/" +
-    df["steals"].astype(int).astype(str) + "/" +
-    df["blocks"].astype(int).astype(str)
-)
+    df["statline_key"] = (
+        df["points"].astype(int).astype(str) + "/" +
+        df["reboundsTotal"].astype(int).astype(str) + "/" +
+        df["assists"].astype(int).astype(str) + "/" +
+        df["steals"].astype(int).astype(str) + "/" +
+        df["blocks"].astype(int).astype(str)
+    )
 
-df.loc[
-    df["historical_untracked_defense"],
-    "statline_key"
-] = (
-    df.loc[df["historical_untracked_defense"], "points"].astype(int).astype(str) + "/" +
-    df.loc[df["historical_untracked_defense"], "reboundsTotal"].astype(int).astype(str) + "/" +
-    df.loc[df["historical_untracked_defense"], "assists"].astype(int).astype(str) + "/-/-"
-)
+    df.loc[
+        df["historical_untracked_defense"],
+        "statline_key"
+    ] = (
+        df.loc[df["historical_untracked_defense"], "points"].astype(int).astype(str) + "/" +
+        df.loc[df["historical_untracked_defense"], "reboundsTotal"].astype(int).astype(str) + "/" +
+        df.loc[df["historical_untracked_defense"], "assists"].astype(int).astype(str) + "/-/-"
+    )
 
-statline_counts = df.groupby(["points", "reboundsTotal", "assists", "steals", "blocks"]).size().to_dict()
+    statline_counts = df.groupby(["points", "reboundsTotal", "assists", "steals", "blocks"]).size().to_dict()
 
-STAT_COLUMNS = ["points", "reboundsTotal", "assists", "steals", "blocks"]
+    STAT_COLUMNS = ["points", "reboundsTotal", "assists", "steals", "blocks"]
 
 
 def get_historical_hoopagami_activity():
