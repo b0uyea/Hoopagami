@@ -681,10 +681,8 @@ def home():
     season_start = pd.Timestamp(f"{season_start_year}-08-01")
     season_end = pd.Timestamp(f"{season_start_year + 1}-08-01")
 
-    season_dates = pd.to_datetime(
-        df["gameDateTimeEst"],
-        errors="coerce"
-    )
+    season_dates = df["gameDateTimeEst"]
+
     regular_season_dates = df[
         (df["gameType"].astype(str) == "Regular Season")
         & (season_dates >= season_start)
@@ -699,22 +697,17 @@ def home():
 
     eligible_df = df[
         (df["gameType"].astype(str) != "Excluded")
-        & (pd.to_datetime(df["gameDateTimeEst"], errors="coerce") >= season_start)
-        & (pd.to_datetime(df["gameDateTimeEst"], errors="coerce") < season_end)
-        & (pd.to_datetime(df["gameDateTimeEst"], errors="coerce") >= opening_date)
-    ].copy()
-
-    eligible_df["gameDateTimeEst"] = pd.to_datetime(
-        eligible_df["gameDateTimeEst"],
-        errors="coerce"
-    )
-
-    eligible_df = eligible_df.sort_values("gameDateTimeEst")
+        & (season_dates >= season_start)
+        & (season_dates < season_end)
+        & (season_dates >= opening_date)
+    ].sort_values("gameDateTimeEst")
 
     historical_df = df[
         (df["gameType"].astype(str) != "Excluded")
-        & (pd.to_datetime(df["gameDateTimeEst"], errors="coerce") < opening_date)
-    ].copy()
+        & (season_dates < opening_date)
+    ]
+
+    seen_counts = historical_df["statline_key"].value_counts().to_dict()
 
     seen_counts = historical_df["statline_key"].value_counts().to_dict()
 
