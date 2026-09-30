@@ -1,7 +1,13 @@
+from pathlib import Path
+import os
+
 import pandas as pd
 import math
 
-CSV_PATH = "/Users/bouyea/Hoopagami/NBA_PlayerStatistics_Complete.csv"
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR))
+
+CSV_PATH = DATA_DIR / "NBA_PlayerStatistics_Complete.csv"
 
 df = pd.read_csv(CSV_PATH)
 

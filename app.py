@@ -1,12 +1,15 @@
 from pathlib import Path
+import os
 from flask import Flask, render_template, request
 import pandas as pd
 
 app = Flask(__name__)
 
 BASE_DIR = Path(__file__).resolve().parent
-CSV_PATH = BASE_DIR / "NBA_PlayerStatistics_Complete.csv"
-RANKS_PATH = BASE_DIR / "statline_ranks.csv"
+DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR))
+
+CSV_PATH = DATA_DIR / "NBA_PlayerStatistics_Complete.csv"
+RANKS_PATH = DATA_DIR / "statline_ranks.csv"
 
 df = pd.read_csv(CSV_PATH)
 ranks_df = pd.read_csv(RANKS_PATH)

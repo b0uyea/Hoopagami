@@ -1,13 +1,16 @@
 import time
 import subprocess
 from pathlib import Path
+import os
 
 import pandas as pd
 from nba_api.stats.endpoints import leaguegamefinder, boxscoretraditionalv3, scheduleleaguev2
 
 
-PROJECT_DIR = Path.home() / "Hoopagami"
-CSV_PATH = PROJECT_DIR / "NBA_PlayerStatistics_Complete.csv"
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = Path(os.environ.get("DATA_DIR", BASE_DIR))
+PROJECT_DIR = BASE_DIR
+CSV_PATH = DATA_DIR / "NBA_PlayerStatistics_Complete.csv"
 
 SEASON_TYPES = {
     "Regular Season": "Regular Season",
