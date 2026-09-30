@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Statline — Hoopagami</title>
+
+    
+
+
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap");
+
+.search-help {
+    margin: 18px 0 28px;
+    padding: 16px 18px;
+    background: #fffaf2;
+    border-left: 5px solid var(--burnt-orange);
+    color: var(--charcoal);
+}
+
+.search-help-title {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 24px;
+    letter-spacing: 1px;
+    color: var(--deep-navy);
+    margin-bottom: 5px;
+}
+
+.search-help-text {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.search-help-text:last-child {
+    margin-bottom: 0;
+}
+
+.search-help-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px 16px;
+    margin: 10px 0;
+    font-size: 13px;
+}
+
+.search-help-examples span {
+    white-space: nowrap;
+}
+
+
+        
+
+
+        body {
+            margin: 0;
+            font-family: "DM Sans", sans-serif;
+            max-width: none;
+            margin: 0;
+            padding: 0;
+            background: var(--muted-cream);
+            color: var(--charcoal);
+        }
+
+        .back-menu {
+            display: inline-block;
+            margin-bottom: 22px;
+            color: var(--burnt-orange);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-menu:hover {
+            color: var(--burnt-orange);
+        }
+
+        .content > h2 {
+            font-family: "Bebas Neue", sans-serif;
+            color: var(--charcoal);
+            font-size: 34px;
+            letter-spacing: 1px;
+            margin: 0 0 14px;
+            border-left: 6px solid var(--burnt-orange);
+            padding-left: 12px;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0 30px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .game-player {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-top: 12px;
+        }
+
+        .game-player-photo {
+            width: 170px;
+            height: 170px;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            box-sizing: border-box;
+            padding: 7px;
+            border-radius: 4px;
+            flex: 0 0 170px;
+            background: var(--muted-cream);
+            border: 2px solid var(--deep-navy);
+        }
+
+        .game-player-info {
+            flex: 1;
+            min-width: 0;
+            padding: 2px 0 0;
+        }
+
+        .game-player-info .player {
+            margin-bottom: 4px;
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 36px;
+            letter-spacing: 0.5px;
+            line-height: 1;
+        }
+
+        .game-player-info .game-info {
+            line-height: 1.55;
+            margin-bottom: 10px;
+            color: #444;
+            font-size: 14px;
+        }
+
+        .statline-card {
+            background: #fffaf2 !important;
+            padding: 18px 20px !important;
+            margin: 14px 0 !important;
+            border: 3px solid var(--deep-navy) !important;
+            box-shadow: 5px 5px 0 var(--warm-brown) !important;
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+
+        .statline-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0 var(--burnt-orange) !important;
+        }
+
+        .actual-statline {
+            display: inline-block;
+            margin-top: 7px;
+            padding: 5px 10px;
+            background: var(--deep-navy);
+            color: var(--muted-cream);
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 23px;
+            letter-spacing: 1px;
+        }
+
+        .statline {
+            color: var(--deep-navy);
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 29px;
+            letter-spacing: .8px;
+            margin-bottom: 3px;
+        }
+
+        .player {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+
+        .game-info {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .rarity-info {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #eee;
+            color: #555;
+        }
+
+        .box-score {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 10px 16px;
+            background: #111;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .box-score:hover {
+            background: #333;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+        }
+    
+        .hero {
+            background: var(--deep-navy);
+            color: var(--muted-cream);
+            padding: 70px 24px 65px;
+            text-align: center;
+            border-top: 7px solid var(--burnt-orange);
+            border-bottom: 10px solid var(--burnt-orange);
+        }
+
+.site-count {
+            margin-top: 10px;
+            color: var(--muted-cream);
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 22px;
+            letter-spacing: 2px;
+        }
+
+        .info-mark-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .info-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-left: 4px;
+            border: none;
+            border-radius: 50%;
+            color: var(--burnt-orange);
+            font-family: "DM Sans", sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1;
+            cursor: help;
+            vertical-align: 2px;
+        }
+
+        .info-tooltip {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 28px;
+            transform: translateX(-50%);
+            width: 260px;
+            padding: 12px 14px;
+            background: var(--muted-cream);
+            color: var(--deep-navy);
+            border: 2px solid var(--burnt-orange);
+            box-shadow: 5px 5px 0 var(--warm-brown);
+            font-family: "DM Sans", sans-serif;
+            font-size: 13px;
+            line-height: 1.45;
+            letter-spacing: 0;
+            text-align: left;
+            z-index: 10;
+        }
+
+
+
+        .top-nav {
+            background: var(--deep-navy);
+            border-top: 7px solid var(--burnt-orange);
+            border-bottom: 10px solid var(--burnt-orange);
+            padding: 24px 20px 28px;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 82px;
+            font-weight: 400;
+            letter-spacing: 4px;
+            line-height: 0.95;
+            margin: 0;
+            color: var(--muted-cream);
+            text-shadow: 3px 3px 0 var(--burnt-orange);
+        }
+
+        .tagline {
+            margin: 14px 0 0;
+            color: var(--muted-cream);
+            opacity: 0.75;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+
+
+
+
+:root {
+    --deep-navy: #252A34;
+    --burnt-orange: #B94A2C;
+    --muted-cream: #EFE2CF;
+    --warm-brown: #765548;
+    --charcoal: #1E1B19;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
+
+
+.back-menu {
+    color: var(--burnt-orange);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.back-menu:hover {
+    color: white;
+}
+
+h1 {
+    margin: 0;
+    padding: 34px 20px 4px;
+    text-align: center;
+    background: var(--deep-navy);
+    color: var(--burnt-orange);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 64px;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px 0 var(--muted-cream);
+}
+
+.content .section-title {
+    margin: 0 0 22px;
+    padding: 0;
+    background: transparent;
+    text-align: left;
+    color: var(--deep-navy);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 42px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+h2 {
+    margin: 0;
+    padding: 0 20px 34px;
+    text-align: center;
+    background: var(--deep-navy);
+    color: var(--muted-cream);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 30px;
+    letter-spacing: 1px;
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 35px 20px 60px;
+}
+
+form {
+    background: white;
+    border: 3px solid var(--deep-navy);
+    box-shadow: 8px 8px 0 var(--warm-brown);
+    padding: 24px;
+    margin-bottom: 30px;
+}
+
+input,
+select,
+button {
+    font-family: "DM Sans", sans-serif;
+}
+
+input {
+    border: 2px solid var(--deep-navy);
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 16px;
+}
+
+button {
+    background: var(--burnt-orange);
+    color: white;
+    border: 2px solid var(--deep-navy);
+    border-radius: 6px;
+    padding: 11px 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+button:hover {
+    background: var(--deep-navy);
+}
+
+a {
+    color: var(--burnt-orange);
+}
+
+.statline-card,
+.result-card,
+.card {
+    background: white;
+    border: 3px solid var(--deep-navy);
+    box-shadow: 6px 6px 0 var(--warm-brown);
+    padding: 22px;
+    margin-bottom: 22px;
+}
+
+.statline-card:hover,
+.result-card:hover,
+.card:hover {
+    box-shadow: 6px 6px 0 var(--burnt-orange);
+}
+
+.statline {
+    color: var(--deep-navy);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 32px;
+    letter-spacing: 1px;
+}
+
+.game-info {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 8px;
+}
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 48px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    main {
+        padding: 25px 15px 45px;
+    }
+}
+
+
+
+
+.statline-hero {
+    background: var(--deep-navy);
+    color: var(--muted-cream);
+    border: 3px solid var(--deep-navy);
+    border-bottom: 6px solid var(--burnt-orange);
+    padding: 30px 28px;
+    margin: 30px 0 34px;
+    text-align: center;
+    box-shadow: 8px 8px 0 var(--warm-brown);
+}
+
+.statline-hero-label {
+    color: var(--burnt-orange);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 24px;
+    letter-spacing: 3px;
+}
+
+.statline-hero-number {
+    color: var(--muted-cream);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: 2px;
+    margin: 5px 0 14px;
+}
+
+.statline-hero-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 19px;
+    font-weight: 600;
+    color: #d8cbb9;
+}
+
+.statline-hero-meta strong {
+    color: white;
+}
+
+.history-heading {
+    background: none;
+    color: var(--deep-navy);
+    padding: 0;
+    margin: 0 0 18px;
+    text-align: left;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 30px;
+    letter-spacing: 1px;
+}
+
+.statline-card .statline {
+    display: none;
+}
+
+.player {
+    color: var(--deep-navy);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 34px;
+    letter-spacing: .5px;
+    margin-bottom: 5px;
+}
+
+.game-info {
+    line-height: 1.45;
+}
+
+.game-date {
+    font-weight: 700;
+}
+
+.box-score {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--burnt-orange);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.box-score:hover {
+    color: var(--deep-navy);
+}
+
+@media (max-width: 600px) {
+    .statline-hero-number {
+        font-size: 50px;
+    }
+
+    .statline-hero-meta {
+        flex-wrap: wrap;
+    }
+}
+
+
+
+.search-filters {
+    display: flex;
+    gap: 12px;
+    align-items: end;
+    flex-wrap: wrap;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 2px solid #e5d9c8;
+}
+.search-filters label {
+    display: flex;
+    gap: 5px;
+    color: var(--muted-cream);
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+}
+.search-filters select {
+    min-width: 150px;
+    padding: 9px 30px 9px 10px;
+    border: 2px solid var(--muted-cream);
+    border-radius: 6px;
+    background: white;
+    color: var(--charcoal);
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+}
+.search-filters button {
+    margin-left: auto;
+}
+
+
+.first-hoopagami {
+    display: inline-block;
+    margin: 4px 0 10px;
+    padding: 5px 10px;
+    border: 2px solid var(--burnt-orange);
+    color: var(--burnt-orange);
+    background: var(--muted-cream);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+    line-height: 1;
+}
+
+/* SEARCH PLAYER HEADER — FINAL OVERRIDE */
+.top-nav {
+    background: var(--deep-navy) !important;
+    border-top: 7px solid var(--burnt-orange) !important;
+    border-bottom: 10px solid var(--burnt-orange) !important;
+    padding: 24px 20px 28px !important;
+    text-align: center !important;
+    margin: 0 0 35px !important;
+}
+
+.top-nav .logo {
+    font-family: "Bebas Neue", sans-serif !important;
+    font-size: 82px !important;
+    font-weight: 400 !important;
+    letter-spacing: 4px !important;
+    line-height: 0.95 !important;
+    margin: 0 !important;
+    color: var(--muted-cream) !important;
+    text-shadow: 3px 3px 0 var(--burnt-orange) !important;
+}
+
+.top-nav .tagline {
+    margin: 14px 0 0 !important;
+    color: var(--muted-cream) !important;
+    opacity: 0.75 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    letter-spacing: 3px !important;
+    text-transform: uppercase !important;
+}
+
+
+/* MATCH SEARCH PLAYER PAGE LAYOUT */
+.content {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 45px 20px 60px !important;
+}
+
+.content > h2 {
+    font-family: "Bebas Neue", sans-serif !important;
+    font-size: 42px !important;
+    font-weight: 400 !important;
+    letter-spacing: 1px !important;
+    color: var(--deep-navy) !important;
+    margin: 0 0 22px !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+}
+
+
+body {
+    background: var(--muted-cream) !important;
+}
+
+main.content {
+    background: transparent !important;
+}
+
+
+
+/* CLICKABLE HOVER STATE: player name */
+.game-player-info .player a {
+    color: var(--deep-navy);
+    text-decoration: none;
+    transition: color .15s ease;
+}
+.game-player-info .player a:hover {
+    color: var(--burnt-orange);
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
+}
+</style>
+</head>
+
+<body>
+
+    <header class="top-nav" style="
+    background:#252A34;
+    border-top:7px solid #B94A2C;
+    border-bottom:10px solid #B94A2C;
+    padding:24px 20px 28px;
+    margin:0;
+    text-align:center;
+    box-sizing:border-box;
+">
+    <h1 style="
+        font-family:'Bebas Neue',sans-serif;
+        font-size:82px;
+        font-weight:400;
+        letter-spacing:4px;
+        line-height:0.95;
+        margin:0;
+        padding:0;
+        color:#EFE2CF;
+        text-shadow:3px 3px 0 #B94A2C;
+    ">Hoopagami</h1>
+    <p style="
+        font-family:'DM Sans',sans-serif;
+        margin:14px 0 0;
+        padding:0;
+        color:#EFE2CF;
+        opacity:.75;
+        font-size:15px;
+        font-weight:700;
+        letter-spacing:3px;
+        line-height:normal;
+        text-transform:uppercase;
+    ">NBA Statline Scorigami</p>
+</header>
+    <main class="content">
+        <a href="/" class="back-menu">← Back to Menu</a>
+        {% if from_new %}
+<a href="/new" class="back-menu" style="margin-left: 18px;">← Back to Newest Hoopagamis</a>
+{% endif %}
+
+{% if from_broken %}
+            <a href="/broken" class="back-menu" style="margin-left: 18px;">← Back to Recently Broken Hoopagamis</a>
+        {% endif %}
+
+        {% if from_player %}
+            <a href="/player?player={{ from_player | urlencode }}&game_type={{ from_player_game_type }}&season={{ from_player_season }}&rarity={{ from_player_rarity }}&occurrences={{ from_player_occurrences }}&sort={{ from_player_sort }}" class="back-menu" style="margin-left: 18px;">← Back to Player</a>
+        {% endif %}
+
+        {% if from_common %}
+            <a href="/common" class="back-menu" style="margin-left: 18px;">← Back to Most Common</a>
+        {% endif %}
+        {% if from_rarest %}
+            <a href="/rarest" class="back-menu" style="margin-left: 18px;">← Back to Rarest Statlines</a>
+        {% endif %}
+
+        <h1 class="section-title">Search Statline</h1>
+
+    <form action="/search" method="get">
+        <input
+            type="text"
+            name="statline"
+            placeholder="PTS / REB / AST / STL / BLK"
+            value="{{ statline }}"
+        >
+        <label class="search-mode-label">
+            Search Type
+            <select name="mode">
+                <option value="exact" {% if search_mode == "exact" %}selected{% endif %}>Exact Match</option>
+                <option value="minimum" {% if search_mode == "minimum" %}selected{% endif %}>At Least</option>
+            </select>
+        </label>
+
+        <button type="submit">Search</button>
+
+
+    </form>
+
+    <div class="search-help">
+        <div class="search-help-title">How to search</div>
+
+        <div class="search-help-text">
+            Search stats in <strong>PTS / REB / AST / STL / BLK</strong> order.
+            You can search just one stat or any combination of stats.
+        </div>
+
+        <div class="search-help-examples">
+            <span><strong>30</strong> = 30 PTS</span>
+            <span><strong>30/10</strong> = 30 PTS + 10 REB</span>
+            <span><strong>30/10/5</strong> = 30 PTS + 10 REB + 5 AST</span>
+            <span><strong>30-10-5</strong> = same as 30/10/5</span>
+        </div>
+
+        <div class="search-help-text">
+            <strong>Exact:</strong> finds games with exactly those stats.
+            <br>
+            <strong>At Least:</strong> adds <strong>+</strong> to each number — for example,
+            <strong>30</strong> means 30+ PTS and <strong>30/10</strong> means 30+ PTS and 10+ REB.
+        </div>
+    </div>
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+    {% if statline and not error %}
+            <form action="/search" method="get" class="filter-bar">
+                <input type="hidden" name="statline" value="{{ statline }}">
+                <input type="hidden" name="mode" value="{{ search_mode }}">
+
+                <label>
+                    Game Type
+                    <select name="game_type">
+                        <option value="all" {% if game_filter == "all" %}selected{% endif %}>All</option>
+                        <option value="regular" {% if game_filter == "regular" %}selected{% endif %}>Regular Season</option>
+                        <option value="playoffs" {% if game_filter == "playoffs" %}selected{% endif %}>Playoffs</option>
+                        <option value="cup" {% if game_filter == "cup" %}selected{% endif %}>NBA Cup</option>
+                    </select>
+                </label>
+
+                <label>
+                    Season
+                    <select name="season">
+                        <option value="all" {% if season_filter == "all" %}selected{% endif %}>All Seasons</option>
+                        {% for season in seasons %}
+                            <option value="{{ season }}" {% if season_filter == season %}selected{% endif %}>{{ season }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label>
+                    Sort By
+                    <select name="sort">
+                        <option value="newest" {% if sort_filter == "newest" %}selected{% endif %}>Newest First</option>
+                        <option value="oldest" {% if sort_filter == "oldest" %}selected{% endif %}>Oldest First</option>
+                    </select>
+                </label>
+
+                <button type="submit">Apply Filters</button>
+            </form>
+
+
+        {% if results %}
+            <div class="statline-hero">
+                <div class="statline-hero-label">STATLINE</div>
+                {% if results[0].rarity_rank is not none %}
+    <div class="statline-hero-number">
+        {{ search_display }}
+    </div>
+{% else %}
+    <div class="statline-hero-number">{{ search_display }}</div>
+{% endif %}
+                <div class="statline-hero-label" style="margin-top: 8px; letter-spacing: 2px;">PTS / REB / AST / STL / BLK</div>
+                <div class="statline-hero-meta">
+                    {% if results[0].rarity_rank is not none %}
+                        <span>Rarity Rank <strong>#{{ results[0].rarity_rank }}</strong></span>
+                        <span>·</span>
+                    {% endif %}
+                    <span><strong>{{ results[0].historical_occurrences }}</strong> Historical Occurrences</span>
+                </div>
+            </div>
+
+
+            <h2 class="history-heading">Every Recorded Game</h2>
+
+            {% for result in results %}
+                <div class="statline-card">
+                    <div class="game-player">
+                        <img
+                            src="https://cdn.nba.com/headshots/nba/latest/1040x760/{{ result.player_id }}.png"
+                            alt="{{ result.player }}"
+                            class="game-player-photo"
+                            style="width:170px !important; height:170px !important; max-width:170px !important; max-height:170px !important; object-fit:cover;"
+                        >
+
+                        <div class="game-player-info">
+                            <div class="player">
+                                <a href="/player?player={{ result.player | urlencode }}&from_statline={{ statline | urlencode }}&statline_game_type={{ game_filter | urlencode }}&statline_season={{ season_filter | urlencode }}&statline_sort={{ sort_filter | urlencode }}&statline_mode={{ search_mode | urlencode }}">{{ result.player }}</a>
+                            </div>
+
+                            {% if result.is_first %}
+                                <div class="first-hoopagami">1ST HOOPAGAMI</div>
+                            {% endif %}
+
+                            <div class="game-info">
+                                <div class="game-date">{{ result.date }}</div>
+                                <div>{{ result.team }} vs. {{ result.opponent }}</div>
+                                <div>{{ result.game_type }}</div>
+                                {% if show_actual_statline %}
+                                    <div class="actual-statline"><strong>{{ result.actual_statline }}</strong></div>
+                                {% endif %}
+                            </div>
+
+                            <a class="box-score" href="{{ result.box_score_url }}" target="_blank" rel="noopener noreferrer">
+                                View Box Score →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% if has_more %}
+                <div id="load-more-container" style="text-align: center; margin: 30px 0 10px;">
+                    <button
+                        type="button"
+                        id="load-more-button"
+                        class="load-more"
+                        data-next-url="/search?statline={{ statline | urlencode }}&mode={{ search_mode | urlencode }}&game_type={{ game_filter | urlencode }}&season={{ season_filter | urlencode }}&sort={{ sort_filter | urlencode }}&page={{ page + 1 }}"
+                    >
+                        Load More
+                    </button>
+                </div>
+            {% endif %}
+
+        {% else %}
+            {% if first_record %}
+                <p>No games found with these filters.</p>
+            {% else %}
+                <p>No NBA games found for this statline.</p>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+    </main>
+</body>
+</html>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const button = document.getElementById("load-more-button");
+    const container = document.getElementById("load-more-container");
+
+    if (!button || !container) {
+        return;
+    }
+
+    button.addEventListener("click", async function () {
+        const nextUrl = button.dataset.nextUrl;
+
+        button.disabled = true;
+        button.textContent = "Loading...";
+
+        try {
+            const response = await fetch(nextUrl);
+            const html = await response.text();
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            const nextCards = doc.querySelectorAll(".statline-card");
+
+            nextCards.forEach(function (card) {
+                container.parentNode.insertBefore(card, container);
+            });
+
+            const nextButton = doc.querySelector("#load-more-button");
+
+            if (nextButton) {
+                button.dataset.nextUrl = nextButton.dataset.nextUrl;
+                button.disabled = false;
+                button.textContent = "Load More";
+            } else {
+                container.remove();
+            }
+        } catch (error) {
+            button.disabled = false;
+            button.textContent = "Load More";
+            console.error(error);
+        }
+    });
+});
+</script>

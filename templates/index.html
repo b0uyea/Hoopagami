@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoopagami — NBA Statline Scorigami</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --deep-navy: #252A34;
+            --burnt-orange: #B94A2C;
+            --muted-cream: #EFE2CF;
+            --warm-brown: #765548;
+            --charcoal: #1E1B19;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "DM Sans", sans-serif;
+            background: var(--muted-cream);
+            color: var(--charcoal);
+        }
+
+        .hero {
+            background: var(--deep-navy);
+            color: var(--muted-cream);
+            padding: 70px 24px 65px;
+            text-align: center;
+            border-top: 7px solid var(--burnt-orange);
+            border-bottom: 10px solid var(--burnt-orange);
+        }
+
+        .logo {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 82px;
+            font-weight: 400;
+            letter-spacing: 4px;
+            line-height: 0.95;
+            margin: 0;
+            color: var(--muted-cream);
+            text-shadow: 3px 3px 0 var(--burnt-orange);
+        }
+
+        .site-count {
+            margin-top: 10px;
+            color: var(--muted-cream);
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 22px;
+            letter-spacing: 2px;
+        }
+
+        .info-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-left: 4px;
+            border: none;
+            border-radius: 50%;
+            color: var(--burnt-orange);
+            font-family: "DM Sans", sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1;
+            cursor: help;
+            vertical-align: 2px;
+        }
+
+        .info-mark-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .info-tooltip {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 28px;
+            transform: translateX(-50%);
+            width: 260px;
+            padding: 12px 14px;
+            background: var(--muted-cream);
+            color: var(--deep-navy);
+            border: 2px solid var(--burnt-orange);
+            box-shadow: 5px 5px 0 var(--warm-brown);
+            font-family: "DM Sans", sans-serif;
+            font-size: 13px;
+            line-height: 1.45;
+            letter-spacing: 0;
+            text-align: left;
+            z-index: 10;
+        }
+
+        .info-mark-wrap:hover .info-tooltip {
+            display: block;
+        }
+
+        .info-mark:hover {
+            background: var(--muted-cream);
+            color: var(--deep-navy);
+        }
+
+        .tagline {
+            margin: 14px 0 0;
+            color: var(--muted-cream);
+            opacity: 0.75;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .content {
+            max-width: 1350px;
+            margin: 0 auto;
+            padding: 42px 24px 60px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 0 0 24px;
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 34px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: var(--deep-navy);
+        }
+
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 70px;
+            height: 4px;
+            margin: 10px auto 0;
+            background: var(--burnt-orange);
+        }
+
+        .homepage-layout {
+            display: grid;
+            grid-template-columns: minmax(210px, 0.72fr) minmax(520px, 1.8fr) minmax(210px, 0.72fr);
+            gap: 38px;
+            align-items: start;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .menu-card {
+            display: block;
+            padding: 22px 24px;
+            background: var(--muted-cream);
+            border: 3px solid var(--deep-navy);
+            border-radius: 3px;
+            text-decoration: none;
+            color: var(--charcoal);
+            box-shadow: 6px 6px 0 var(--warm-brown);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .menu-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0 var(--burnt-orange);
+        }
+
+        .menu-card h3 {
+            margin: 0 0 7px;
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 27px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: var(--deep-navy);
+        }
+
+        .menu-card p {
+            margin: 0;
+            color: var(--charcoal);
+            opacity: 0.78;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+
+        .menu-card.disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .menu-card.disabled:hover {
+            transform: none;
+            box-shadow: 6px 6px 0 var(--warm-brown);
+        }
+
+        .recent-activity {
+            margin-top: 55px;
+        }
+
+        .activity-section {
+            margin-top: 30px;
+        }
+
+        .live-feed-label {
+            display: inline-block;
+            margin-bottom: 7px;
+            padding: 4px 8px;
+            background: var(--burnt-orange);
+            color: var(--muted-cream);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .activity-subtitle {
+            margin: -7px 0 16px;
+            color: var(--warm-brown);
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .activity-title {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 28px;
+            letter-spacing: 1px;
+            color: var(--deep-navy);
+            margin: 0 0 14px;
+        }
+
+        .activity-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .activity-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fffaf2;
+            border: 2px solid var(--deep-navy);
+            border-left: 5px solid var(--burnt-orange);
+            padding: 11px;
+            box-shadow: 4px 4px 0 var(--warm-brown);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .activity-card:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 5px 5px 0 var(--burnt-orange);
+        }
+
+        .activity-photo {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            display: block;
+            border-radius: 4px;
+            flex: 0 0 60px;
+        }
+
+        .activity-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .activity-statline {
+            display: block;
+            color: var(--burnt-orange);
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 24px;
+            letter-spacing: 0.8px;
+            line-height: 1;
+            text-decoration: none;
+            margin-bottom: 3px;
+        }
+
+        .activity-statline:hover {
+            color: var(--deep-navy);
+        }
+
+        .activity-player {
+            display: block;
+            color: var(--deep-navy);
+            font-size: 15px;
+            font-weight: 800;
+            text-decoration: none;
+            margin-bottom: 3px;
+        }
+
+        .activity-player:hover {
+            color: var(--burnt-orange);
+        }
+
+        .activity-details {
+            color: var(--warm-brown);
+            font-size: 11px;
+            line-height: 1.35;
+            margin-bottom: 4px;
+        }
+
+        .activity-box-score {
+            color: var(--deep-navy);
+            font-size: 11px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .activity-box-score:hover {
+            color: var(--burnt-orange);
+        }
+
+        .activity-empty {
+            color: var(--warm-brown);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--warm-brown);
+            font-size: 13px;
+            margin-top: 40px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 650px) {
+            .hero {
+                padding: 55px 20px;
+            }
+
+            .logo {
+                font-size: 60px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 35px 16px 40px;
+            }
+        }
+    
+
+
+    </style>
+</head>
+
+<body>
+
+    <header class="hero">
+        <h1 class="logo">Hoopagami</h1><div class="site-count"><span class="count-item"><strong>{{ "{:,}".format(hoopagami_count) }}</strong> HOOPAGAMIS <span class="info-mark-wrap"><span class="info-mark">ⓘ</span><span class="info-tooltip"><strong>What is a Hoopagami?</strong><br>A Hoopagami is a unique NBA player statline that occurred exactly once in the database.<br><br>The count is current and can change as new games are added or historical data is corrected. The database updates automatically each day.</span></span></span> <span>·</span> <strong>{{ "{:,}".format(distinct_statline_count) }}</strong> DISTINCT STATLINES <span class="info-mark-wrap"><span class="info-mark">ⓘ</span><span class="info-tooltip"><strong>What are Distinct Statlines?</strong><br>This is the total number of different points / rebounds / assists / steals / blocks combinations recorded in the database, regardless of how many times each combination occurred.<br><br>The count is current and can change as new games are added or historical data is corrected.</span></span></div>
+        <p class="tagline">NBA Statline Scorigami</p>
+    </header>
+
+    <main class="content">
+        <div class="homepage-layout">
+            <section class="side-activity" id="newest-hoopagamis">
+                <h3 class="activity-title">Newest Hoopagamis</h3>
+
+                {% if new_hoopagamis %}
+                    <div class="activity-list">
+                        {% for game in new_hoopagamis %}
+                            <div class="activity-card">
+                                <img
+                                    src="https://cdn.nba.com/headshots/nba/latest/1040x760/{{ game.player_id }}.png"
+                                    alt="{{ game.player }}"
+                                    class="activity-photo"
+                                >
+                                <div class="activity-info">
+                                    <a href="/search?statline={{ game.statline | urlencode }}&game_type=all&season=all&sort=newest" class="activity-statline">
+                                        {{ game.statline }}
+                                    </a>
+                                    <a href="/player?player={{ game.player | urlencode }}" class="activity-player">
+                                        {{ game.player }}
+                                    </a>
+                                    <div class="activity-details">
+                                        {{ game.date }} · {{ game.team }} vs. {{ game.opponent }} · {{ game.game_type }}
+                                    </div>
+                                    <a href="{{ game.box_score_url }}" target="_blank" class="activity-box-score">
+                                        View Box Score →
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="activity-empty">The 2026-27 season starts October 20, 2026.</p>
+                {% endif %}
+            </section>
+
+            <section class="menu-section">
+                <h2 class="section-title">Explore NBA Statlines</h2>
+                <div class="menu-grid">
+
+                    <a href="/search" class="menu-card">
+                        <h3>Search Statline</h3>
+                        <p>Find an exact NBA statline and see every time it has occurred throughout league history.</p>
+                    </a>
+
+                    <a href="/player" class="menu-card">
+                        <h3>Search Player</h3>
+                        <p>Explore a player's complete statline history, including rare performances and game details.</p>
+                    </a>
+
+                    <a href="/rarest" class="menu-card">
+                        <h3>Rarest Statlines</h3>
+                        <p>Explore the most unique statlines in NBA history, ranked by Hoopagami's rarity system.</p>
+                    </a>
+
+                    <a href="/common" class="menu-card">
+                        <h3>Most Common Statlines</h3>
+                        <p>Explore the statlines that have appeared most frequently in NBA history.</p>
+                    </a>
+
+                    <a href="/new#new-hoopagamis" class="menu-card">
+                        <h3>Newest Hoopagamis</h3>
+                        <p>See the most recently created unique statlines in NBA history.</p>
+                    </a>
+
+                    <a href="/broken" class="menu-card">
+                        <h3>Recently Broken Hoopagamis</h3>
+                        <p>See the most recently broken Hoopagamis in NBA history.</p>
+                    </a>
+
+                    <a href="/leaderboard" class="menu-card">
+                        <h3>Hoopagami Leaderboard</h3>
+                        <p>See the players with the most Hoopagamis throughout NBA history.</p>
+                    </a>
+
+                    <a href="/most-broken" class="menu-card">
+                        <h3>Broken Hoopagamis Leaderboard</h3>
+                        <p>See the players whose unique statlines have been broken the most.</p>
+                    </a>
+
+                    <a href="/trends" class="menu-card">
+                        <h3>Hoopagami Trends</h3>
+                        <p>Explore how Hoopagamis have been created and broken across NBA seasons.</p>
+                    </a>
+
+                </div>
+            </section>
+
+            <section class="side-activity" id="broken-hoopagamis">
+                <h3 class="activity-title">Recently Broken Hoopagamis</h3>
+
+                {% if broken_hoopagamis %}
+                    <div class="activity-list">
+                        {% for game in broken_hoopagamis %}
+                            <div class="activity-card">
+                                <img
+                                    src="https://cdn.nba.com/headshots/nba/latest/1040x760/{{ game.player_id }}.png"
+                                    alt="{{ game.player }}"
+                                    class="activity-photo"
+                                >
+                                <div class="activity-info">
+                                    <a href="/search?statline={{ game.statline | urlencode }}&game_type=all&season=all&sort=newest" class="activity-statline">
+                                        {{ game.statline }}
+                                    </a>
+                                    <a href="/player?player={{ game.player | urlencode }}" class="activity-player">
+                                        {{ game.player }}
+                                    </a>
+                                    <div class="activity-details">
+                                        {{ game.date }} · {{ game.team }} vs. {{ game.opponent }} · {{ game.game_type }}
+                                    </div>
+                                    <a href="{{ game.box_score_url }}" target="_blank" class="activity-box-score">
+                                        View Box Score →
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="activity-empty">No Hoopagamis have been broken this season yet.</p>
+                {% endif %}
+            </section>
+        </div>
+        <div class="footer">
+            HOOPAGAMI · NBA STATLINE SCORIGAMI
+        </div>
+    </main>
+
+</body>
+</html>

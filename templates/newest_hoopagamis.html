@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New This Season — Hoopagami</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+        :root {
+            --deep-navy: #252A34;
+            --burnt-orange: #B94A2C;
+            --muted-cream: #EFE2CF;
+            --warm-brown: #765548;
+            --charcoal: #1E1B19;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "DM Sans", sans-serif;
+            background: var(--muted-cream);
+            color: var(--charcoal);
+        }
+
+        .top-nav {
+            background: var(--deep-navy);
+            border-top: 7px solid var(--burnt-orange);
+            border-bottom: 10px solid var(--burnt-orange);
+            padding: 24px 20px 28px;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 72px;
+            letter-spacing: 4px;
+            color: var(--muted-cream);
+            text-shadow: 3px 3px 0 var(--burnt-orange);
+            line-height: 1;
+        }
+
+        .tagline {
+            margin-top: 10px;
+            color: var(--muted-cream);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 45px 20px 60px;
+        }
+
+        .back-menu {
+            display: inline-block;
+            margin-bottom: 22px;
+            color: var(--deep-navy);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-menu:hover {
+            color: var(--burnt-orange);
+        }
+
+        .season-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 24px 0 38px;
+        }
+
+        .summary-card {
+            background: #fffaf2;
+            border: 3px solid var(--deep-navy);
+            box-shadow: 5px 5px 0 var(--warm-brown);
+            padding: 18px 20px;
+        }
+
+        .summary-label {
+            color: #666;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .summary-value {
+            margin-top: 4px;
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 38px;
+            color: var(--deep-navy);
+        }
+
+        .section-title {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 38px;
+            letter-spacing: 1.5px;
+            color: var(--deep-navy);
+            margin: 0 0 4px;
+        }
+
+        .season-label {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 32px;
+        }
+
+        .subsection-title {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 30px;
+            letter-spacing: 1px;
+            color: var(--deep-navy);
+            margin: 36px 0 14px;
+        }
+
+        .statline-card {
+            display: grid;
+            grid-template-columns: 38% 62%;
+            background: #fffaf2;
+            margin: 22px 0;
+            border: 2px solid var(--deep-navy);
+            border-left: 8px solid var(--burnt-orange);
+            box-shadow: 7px 7px 0 var(--warm-brown);
+            overflow: hidden;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .statline-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 9px 9px 0 var(--burnt-orange);
+        }
+
+        .statline-card .status {
+            grid-column: 1 / -1;
+            margin: 0;
+            padding: 8px 20px;
+            display: block;
+            background: var(--deep-navy);
+            color: var(--muted-cream);
+            border-bottom: 3px solid var(--burnt-orange);
+            font-size: 12px;
+            letter-spacing: 1.5px;
+        }
+
+        .statline-card .statline {
+            grid-column: 1;
+            display: flex;
+            align-items: center;
+            padding: 30px 28px;
+            font-size: 42px;
+            line-height: 1.05;
+            border-right: 1px solid rgba(118, 85, 72, 0.25);
+        }
+
+        .statline-card .game-player {
+            grid-column: 2;
+            margin-top: 0;
+            padding: 24px 28px;
+        }
+
+        .statline-card .player {
+            font-size: 23px;
+            margin-bottom: 7px;
+        }
+
+        .statline-card .game-info {
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .statline-card .box-score {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 7px 11px;
+            border: 2px solid var(--deep-navy);
+            color: var(--deep-navy);
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+        }
+
+        .statline-card .box-score:hover {
+            background: var(--deep-navy);
+            color: var(--muted-cream);
+            text-decoration: none;
+        }
+
+        .status {
+            display: inline-block;
+            margin-bottom: 8px;
+            padding: 4px 9px;
+            background: var(--deep-navy);
+            color: var(--muted-cream);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .status.broken {
+            background: var(--burnt-orange);
+        }
+
+        .statline {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 38px;
+            letter-spacing: 1.2px;
+            color: var(--burnt-orange);
+            line-height: 1;
+            margin: 2px 0 8px;
+        }
+
+        .statline a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .statline a:hover {
+            color: var(--deep-navy);
+        }
+
+        .player {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .player a {
+            color: var(--deep-navy);
+            text-decoration: none;
+        }
+
+        .player a:hover {
+            color: var(--burnt-orange);
+        }
+
+        .game-player {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-top: 12px;
+        }
+
+        .game-player-photo {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            display: block;
+            border-radius: 4px;
+            flex: 0 0 110px;
+        }
+
+        .game-player-info {
+            flex: 1;
+            min-width: 0;
+            padding-top: 2px;
+        }
+
+        .game-player-info .player {
+            margin-bottom: 4px;
+        }
+
+        .game-player-info .game-info {
+            line-height: 1.45;
+            margin-bottom: 8px;
+        }
+
+        .game-info {
+            color: #555;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .rarity-info {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #eee;
+            color: #555;
+        }
+
+        .box-score {
+            display: inline-block;
+            margin-top: 12px;
+            color: var(--burnt-orange);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .box-score:hover {
+            text-decoration: underline;
+        }
+
+        .previous {
+            margin-top: 14px;
+            padding: 12px 14px;
+            background: #f1eadf;
+            border-left: 4px solid var(--warm-brown);
+            font-size: 14px;
+            color: #555;
+        }
+
+        .previous strong {
+            color: var(--deep-navy);
+        }
+
+        .empty {
+            background: #fffaf2;
+            border: 2px solid #ddd;
+            padding: 22px;
+            color: #666;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(37, 42, 52, 0.15);
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="top-nav">
+        <div class="logo">HOOPAGAMI</div>
+        <div class="tagline">NBA STATLINE SCORIGAMI</div>
+    </header>
+
+    <main class="content">
+
+        <a href="/" class="back-menu">← Back to Menu</a>
+
+        <h1 class="section-title">Newest Hoopagamis</h1>
+
+
+        {% if new_hoopagamis %}
+            {% for game in new_hoopagamis %}
+                <div class="statline-card">
+                    <div class="status">New Hoopagami</div>
+
+                    <div class="statline">
+                        <a href="/search?statline={{ game.statline | urlencode }}&game_type=all&season=all&sort=newest&from_new=1">
+                            {{ game.statline }}
+                        </a>
+                    </div>
+
+                    <div class="game-player">
+                        <img
+                            src="https://cdn.nba.com/headshots/nba/latest/1040x760/{{ game.player_id }}.png"
+                            alt="{{ game.player }}"
+                            class="game-player-photo"
+                        >
+
+                        <div class="game-player-info">
+                            <div class="player">
+                                <a href="/player?player={{ game.player | urlencode }}&from_new=1">
+                                    {{ game.player }}
+                                </a>
+                            </div>
+
+                            <div class="game-info">
+                                <div>{{ game.date }}</div>
+                                <div>{{ game.team }} vs. {{ game.opponent }}</div>
+                                <div>{{ game.game_type }}</div>
+                            </div>
+
+                            <a class="box-score"
+                               href="{{ game.box_score_url }}"
+                               target="_blank">
+                                View Box Score →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty">
+                Season starts on {{ season_start_date }}.
+            </div>
+        {% endif %}
+

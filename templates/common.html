@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Most Common Statlines — Hoopagami</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --deep-navy: #252A34;
+            --burnt-orange: #B94A2C;
+            --muted-cream: #EFE2CF;
+            --warm-brown: #765548;
+            --charcoal: #1E1B19;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "DM Sans", sans-serif;
+            background: var(--muted-cream);
+            color: var(--charcoal);
+        }
+
+        .top-nav {
+            background: var(--deep-navy);
+            border-top: 7px solid var(--burnt-orange);
+            border-bottom: 10px solid var(--burnt-orange);
+            padding: 24px 20px 28px;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 72px;
+            letter-spacing: 4px;
+            color: var(--muted-cream);
+            text-shadow: 3px 3px 0 var(--burnt-orange);
+            line-height: 1;
+        }
+
+        .tagline {
+            margin-top: 10px;
+            color: var(--muted-cream);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 45px 20px 60px;
+        }
+
+        .back-menu {
+            display: inline-block;
+            margin-bottom: 22px;
+            color: var(--deep-navy);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-menu:hover {
+            color: var(--burnt-orange);
+        }
+
+        .section-title {
+            margin: 0 0 22px;
+            padding: 0;
+            background: transparent;
+            text-align: left;
+            color: var(--deep-navy);
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 42px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .intro {
+            color: #555;
+            font-size: 15px;
+            margin: -8px 0 24px;
+        }
+
+        .statline-card {
+            background: #fffaf2;
+            padding: 18px 20px;
+            margin: 14px 0;
+            border: 3px solid var(--deep-navy);
+            box-shadow: 5px 5px 0 var(--warm-brown);
+            transition: 0.15s ease;
+        }
+
+        .statline-card:hover {
+            border-color: var(--burnt-orange);
+            box-shadow: 5px 5px 0 var(--burnt-orange);
+        }
+
+        .statline {
+            color: var(--deep-navy);
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 29px;
+            letter-spacing: .8px;
+            margin-bottom: 3px;
+        }
+
+        .statline a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .statline a:hover {
+            color: var(--burnt-orange);
+        }
+
+        .occurrences {
+            color: #555;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .recent-label {
+            color: #777;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .game-player {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-top: 14px;
+        }
+
+        .game-player-photo {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            display: block;
+            border-radius: 4px;
+            flex: 0 0 110px;
+        }
+
+        .game-player-info {
+            flex: 1;
+            min-width: 0;
+            padding-top: 2px;
+        }
+
+        .game-player-info .player {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .game-player-info .player a {
+            color: var(--deep-navy);
+            text-decoration: none;
+        }
+
+        .game-player-info .player a:hover {
+            color: var(--burnt-orange);
+        }
+
+        .game-player-info .game-info {
+            color: #555;
+            line-height: 1.45;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="top-nav">
+        <div class="logo">HOOPAGAMI</div>
+        <div class="tagline">NBA STATLINE SCORIGAMI</div>
+    </header>
+
+    <main class="content">
+
+        <a href="/" class="back-menu">← Back to Menu</a>
+
+        <h1 class="section-title">Most Common Statlines</h1>
+
+        <div class="intro">
+            The most frequently occurring NBA statlines in the database, ranked by total occurrences.
+        </div>
+
+        {% for result in results %}
+            <div class="statline-card">
+                <div class="statline">
+                    <a href="/search?statline={{ result.statline | urlencode }}&game_type=all&season=all&sort=newest&from_common=1">
+                        #{{ loop.index }} — {{ result.statline }}
+                    </a>
+                </div>
+
+                <div class="occurrences">
+                    {{ result.occurrences }} occurrences
+                </div>
+
+                {% if result.most_recent %}
+                    <div class="game-player">
+                        <img
+                            src="https://cdn.nba.com/headshots/nba/latest/1040x760/{{ result.most_recent.player_id }}.png"
+                            alt="{{ result.most_recent.player }}"
+                            class="game-player-photo"
+                        >
+
+                        <div class="game-player-info">
+                            <div class="recent-label">Most Recent Occurrence</div>
+
+                            <div class="player">
+                                <a href="/player?player={{ result.most_recent.player | urlencode }}&from_common=1">
+                                    {{ result.most_recent.player }}
+                                </a>
+                            </div>
+
+                            <div class="game-info">
+                                <div>{{ result.most_recent.date }}</div>
+                                <div>{{ result.most_recent.team }} vs. {{ result.most_recent.opponent }}</div>
+                                <div>{{ result.most_recent.game_type }}</div>
+                            </div>
+
+                            <a class="box-score"
+                               href="{{ result.most_recent.box_score_url }}"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                View Box Score →
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="footer">
+            HOOPAGAMI · NBA STATLINE SCORIGAMI
+        </div>
+
+    </main>
+</body>
+</html>

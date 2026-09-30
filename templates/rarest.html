@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rarest Statlines — Hoopagami</title>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap");
+
+        :root {
+            --deep-navy: #252A34;
+            --burnt-orange: #B94A2C;
+            --muted-cream: #EFE2CF;
+            --warm-brown: #765548;
+            --charcoal: #1E1B19;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            max-width: none;
+            margin: 0;
+            padding: 0;
+            background: var(--muted-cream);
+            color: var(--charcoal);
+        }
+
+        .back-menu {
+            display: inline-block;
+            margin-bottom: 22px;
+            color: var(--burnt-orange);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-menu:hover {
+            color: var(--deep-navy);
+        }
+
+        .content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 45px 20px 60px;
+        }
+
+        h1 { margin-bottom: 5px; }
+
+        h2 {
+            margin-top: 10px;
+            color: var(--deep-navy);
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 34px;
+            letter-spacing: 1px;
+        }
+
+        .statline-card {
+            background: #fffaf2;
+            padding: 18px 20px;
+            margin: 14px 0;
+            border: 3px solid var(--deep-navy);
+            box-shadow: 5px 5px 0 var(--warm-brown);
+        }
+
+        .statline-card:hover {
+            box-shadow: 5px 5px 0 var(--burnt-orange);
+        }
+
+        .game-player {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 8px;
+        }
+
+        .game-player-photo {
+            width: 170px;
+            height: 170px;
+            object-fit: cover;
+            display: block;
+            border-radius: 4px;
+            flex: 0 0 170px;
+            background: var(--deep-navy);
+        }
+
+        .game-player-info {
+            flex: 1;
+            min-width: 0;
+            padding-top: 2px;
+        }
+
+        .game-player-info .player {
+            margin-bottom: 4px;
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 36px;
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        .game-player-info .game-info {
+            line-height: 1.45;
+            margin-bottom: 8px;
+        }
+
+        .statline {
+            color: var(--deep-navy);
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 29px;
+            letter-spacing: .8px;
+            margin-bottom: 3px;
+        }
+        .statline a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .statline a:hover {
+            color: var(--burnt-orange);
+        }
+
+
+        .player {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .player a {
+            color: var(--deep-navy);
+            text-decoration: none;
+        }
+
+        .player a:hover {
+            color: var(--burnt-orange);
+        }
+
+        .game-info {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .box-score {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 10px 16px;
+            background: var(--deep-navy);
+            color: var(--muted-cream);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 700;
+        }
+
+        .box-score:hover {
+            background: var(--burnt-orange);
+        }
+
+        .top-nav {
+            background: var(--deep-navy);
+            color: var(--muted-cream);
+            margin: 0 -20px 35px;
+            padding: 70px 24px 65px;
+            text-align: center;
+            border-top: 7px solid var(--burnt-orange);
+            border-bottom: 10px solid var(--burnt-orange);
+        }
+
+        .logo {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 82px;
+            font-weight: 400;
+            letter-spacing: 4px;
+            line-height: 0.95;
+            margin: 0;
+            color: var(--muted-cream);
+            text-shadow: 3px 3px 0 var(--burnt-orange);
+        }
+
+        .tagline {
+            margin: 14px 0 0;
+            color: var(--muted-cream);
+            opacity: 0.75;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin: 0 0 25px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 14px;
+            border: 3px solid var(--deep-navy);
+            background: #fffaf2;
+            font-family: "DM Sans", sans-serif;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .search-button {
+            padding: 12px 18px;
+            border: 3px solid var(--deep-navy);
+            background: var(--deep-navy);
+            color: var(--muted-cream);
+            font-family: "DM Sans", sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background: var(--burnt-orange);
+        }
+
+        .occurrence-select {
+            padding: 12px 14px;
+            border: 3px solid var(--deep-navy);
+            background: #fffaf2;
+            color: var(--charcoal);
+            font-family: "DM Sans", sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+        }
+            .load-more {
+            background: var(--burnt-orange);
+            color: var(--cream);
+            border: none;
+            padding: 12px 28px;
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 22px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background .15s ease, transform .15s ease;
+        }
+
+        .load-more:hover {
+            background: var(--deep-navy);
+            transform: translateY(-1px);
+        }
+
+        .load-more:disabled {
+            opacity: 0.7;
+            cursor: wait;
+            transform: none;
+        }
+
+</style>
+</head>
+
+<body>
+
+    <header class="top-nav">
+        <h1 class="logo">Hoopagami</h1>
+        <p class="tagline">NBA Statline Scorigami</p>
+    </header>
+
+    <main class="content">
+        <a href="/" class="back-menu">← Back to Menu</a>
+
+
+    <h2>Rarest Statlines</h2>
+
+    <form class="search-form" action="/rarest" method="get">
+        <input
+            class="search-input"
+            type="text"
+            name="query"
+            value="{{ request.args.get('query', '') }}"
+            placeholder="Search statline (e.g. 27/11/9)"
+        >
+        <select class="occurrence-select" name="occurrences">
+            <option value="all" {% if request.args.get('occurrences', 'all') == 'all' %}selected{% endif %}>All Occurrences</option>
+            <option value="1" {% if request.args.get('occurrences') == '1' %}selected{% endif %}>1 Occurrence</option>
+            <option value="2" {% if request.args.get('occurrences') == '2' %}selected{% endif %}>2 Occurrences</option>
+            <option value="3" {% if request.args.get('occurrences') == '3' %}selected{% endif %}>3 Occurrences</option>
+            <option value="4+" {% if request.args.get('occurrences') == '4+' %}selected{% endif %}>4+ Occurrences</option>
+        </select>
+
+        <button class="search-button" type="submit">Search</button>
+    </form>
+
+    {% for result in results %}
+        <div class="statline-card">
+
+            <div class="statline">
+                <a href="/search?statline={{ result.statline | urlencode }}&game_type=all&season=all&sort=newest&from_rarest=1">
+                    #{{ result.rank }} — {{ result.statline }}
+                </a>
+            </div>
+
+            {% for game in result.games %}
+                <div class="game-player">
+                    <img
+                        src="https://cdn.nba.com/headshots/nba/latest/1040x760/{{ game.player_id }}.png"
+                        alt="{{ game.player }}"
+                        class="game-player-photo"
+                    >
+
+                    <div class="game-player-info">
+                        <div class="player">
+                            <a href="/player?player={{ game.player | urlencode }}&from_rarest=1">{{ game.player }}</a>
+                        </div>
+
+                        <div class="game-info">
+                            {{ game.date }}<br>
+                            {{ game.team }} vs. {{ game.opponent }}<br>
+                            {{ game.game_type }}
+                        </div>
+
+                        <a class="box-score" href="{{ game.box_score_url }}" target="_blank" rel="noopener noreferrer">
+                            View Box Score →
+                        </a>
+                    </div>
+                </div>
+
+                {% if not loop.last %}
+                    <div style="margin: 18px 0; border-top: 1px solid #ddd;"></div>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    {% endfor %}
+
+    {% if has_more %}
+        <div id="load-more-container" style="text-align: center; margin: 30px 0 10px;">
+            <button
+                type="button"
+                id="load-more-button"
+                class="load-more"
+                data-next-url="/rarest?query={{ query | urlencode }}&occurrences={{ occurrence_filter | urlencode }}&page={{ page + 1 }}"
+            >
+                Load More
+            </button>
+        </div>
+    {% endif %}
+
+</main>
+
+</body>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const button = document.getElementById("load-more-button");
+    const container = document.getElementById("load-more-container");
+
+    if (!button || !container) {
+        return;
+    }
+
+    button.addEventListener("click", async function () {
+        const nextUrl = button.dataset.nextUrl;
+
+        button.disabled = true;
+        button.textContent = "Loading...";
+
+        try {
+            const response = await fetch(nextUrl);
+            const html = await response.text();
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            const nextCards = doc.querySelectorAll(".statline-card");
+
+            nextCards.forEach(function (card) {
+                container.parentNode.insertBefore(card, container);
+            });
+
+            const nextButton = doc.querySelector("#load-more-button");
+
+            if (nextButton) {
+                button.dataset.nextUrl = nextButton.dataset.nextUrl;
+                button.disabled = false;
+                button.textContent = "Load More";
+            } else {
+                container.remove();
+            }
+        } catch (error) {
+            button.disabled = false;
+            button.textContent = "Load More";
+            console.error(error);
+        }
+    });
+});
+</script>
+
+</html>

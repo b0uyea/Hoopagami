@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoopagami Trends</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-navy: #252A34;
+            --burnt-orange: #B94A2C;
+            --muted-cream: #EFE2CF;
+            --warm-brown: #765548;
+            --charcoal: #1E1B19;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: "DM Sans", sans-serif;
+            background: var(--muted-cream);
+            color: var(--charcoal);
+        }
+
+        .top-nav {
+            background: var(--deep-navy);
+            border-top: 7px solid var(--burnt-orange);
+            border-bottom: 10px solid var(--burnt-orange);
+            padding: 24px 20px 28px;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 72px;
+            letter-spacing: 4px;
+            color: var(--muted-cream);
+            text-shadow: 3px 3px 0 var(--burnt-orange);
+            line-height: 1;
+        }
+
+        .tagline {
+            margin-top: 10px;
+            color: var(--muted-cream);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 45px 20px 60px;
+        }
+
+        .back-menu {
+            display: inline-block;
+            margin-bottom: 22px;
+            color: var(--deep-navy);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-menu:hover { color: var(--burnt-orange); }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 38px;
+            color: var(--deep-navy);
+        }
+
+        .intro {
+            margin: 0 0 25px;
+            color: var(--warm-brown);
+            font-size: 16px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+            background: #fffaf2;
+            border: 2px solid var(--deep-navy);
+            padding: 18px 20px;
+            margin-bottom: 22px;
+        }
+
+        .controls label {
+            font-weight: 800;
+            color: var(--deep-navy);
+        }
+
+        .controls select {
+            padding: 9px 34px 9px 10px;
+            border: 1px solid var(--warm-brown);
+            background: var(--muted-cream);
+            color: var(--charcoal);
+            font-family: inherit;
+            font-weight: 700;
+        }
+
+        .range-label {
+            margin-left: auto;
+            color: var(--warm-brown);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .data-note {
+            background: var(--deep-navy);
+            color: var(--muted-cream);
+            padding: 18px 20px;
+            margin-bottom: 28px;
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .chart-card {
+            background: #fffaf2;
+            border: 2px solid var(--deep-navy);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .chart-title {
+            margin: 0 0 5px;
+            font-size: 22px;
+            color: var(--deep-navy);
+        }
+
+        .chart-description {
+            margin: 0 0 18px;
+            color: var(--warm-brown);
+            font-size: 14px;
+        }
+
+        .chart-wrapper {
+            width: 100%;
+            height: 340px;
+        }
+
+        .findings {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .finding {
+            background: #fffaf2;
+            border: 2px solid var(--deep-navy);
+            padding: 18px;
+        }
+
+        .finding-label {
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--warm-brown);
+            margin-bottom: 7px;
+        }
+
+        .info-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            margin-left: 5px;
+            border: 1px solid var(--warm-brown);
+            border-radius: 50%;
+            background: transparent;
+            color: var(--warm-brown);
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 900;
+            cursor: help;
+            vertical-align: middle;
+            position: relative;
+        }
+
+        .info-mark:hover {
+            background: var(--deep-navy);
+            border-color: var(--deep-navy);
+            color: var(--muted-cream);
+        }
+
+        .info-mark::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 50%;
+            top: calc(100% + 9px);
+            transform: translateX(-50%);
+            width: 250px;
+            padding: 10px 12px;
+            background: var(--deep-navy);
+            color: var(--muted-cream);
+            font-family: "DM Sans", sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.45;
+            text-align: left;
+            border-radius: 3px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+            z-index: 10;
+        }
+
+        .info-mark:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .finding-value {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 30px;
+            color: var(--burnt-orange);
+        }
+
+        .finding-text {
+            margin-top: 5px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 800px) {
+            .findings { grid-template-columns: 1fr; }
+            .range-label { margin-left: 0; width: 100%; }
+        }
+
+        @media (max-width: 700px) {
+            .logo { font-size: 52px; }
+            .chart-card { padding: 18px; }
+            .chart-wrapper { height: 300px; }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="top-nav">
+        <div class="logo">HOOPAGAMI</div>
+        <div class="tagline">NBA Statline Scorigami</div>
+    </header>
+
+    <main class="content">
+        <a href="/" class="back-menu">← Back to Menu</a>
+
+        <h1>Hoopagami Trends</h1>
+        <p class="intro">
+            Explore how unique NBA statlines have been created, broken, and reused throughout league history.
+        </p>
+
+        <div class="controls">
+            <label for="startSeason">From</label>
+            <select id="startSeason"></select>
+
+            <label for="endSeason">To</label>
+            <select id="endSeason"></select>
+
+            <span class="range-label" id="rangeLabel"></span>
+        </div>
+
+        <div class="data-note">
+            <strong>Data Note:</strong> Beginning with the 1973–74 NBA season, steals and blocks were officially recorded as statistics.
+            This significantly expanded the number of possible five-stat statlines in the database, which explains the sharp rise
+            in Hoopagami creation starting that season.
+        </div>
+
+        <div class="findings">
+            <div class="finding">
+                <div class="finding-label">
+                    Peak Creation
+                    <button class="info-mark" type="button"
+                        data-tooltip="The season in the selected range with the most new Hoopagamis. A Hoopagami is a statline that had never occurred before."
+                        aria-label="Peak Creation information">i</button>
+                </div>
+                <div class="finding-value" id="peakCreation">—</div>
+                <div class="finding-text" id="peakCreationText">—</div>
+                            </div>
+
+            <div class="finding">
+                <div class="finding-label">
+                    Peak Rate
+                    <button class="info-mark" type="button"
+                        data-tooltip="The season that created the most new Hoopagamis relative to the number of games played. Measured as Hoopagamis created per 100 games."
+                        aria-label="Peak Rate information">i</button>
+                </div>
+                <div class="finding-value" id="peakRate">—</div>
+                <div class="finding-text" id="peakRateText">—</div>
+                            </div>
+
+            <div class="finding">
+                <div class="finding-label">
+                    Current Gap
+                    <button class="info-mark" type="button"
+                        data-tooltip="Total Hoopagamis created minus total Hoopagamis broken in the selected range."
+                        aria-label="Current Gap information">i</button>
+                </div>
+                <div class="finding-value" id="currentGap">—</div>
+                <div class="finding-text" id="currentGapText">Created minus broken in the selected range.</div>
+                            </div>
+        </div>
+
+        <section class="chart-card">
+            <h2 class="chart-title">Hoopagamis Created vs. Broken</h2>
+            <p class="chart-description">
+                Raw seasonal totals. Select any range above to zoom in on a specific era.
+            </p>
+            <div class="chart-wrapper">
+                <canvas id="createdBrokenChart"></canvas>
+            </div>
+        </section>
+
+        <section class="chart-card">
+            <h2 class="chart-title">Hoopagamis per 100 Games</h2>
+            <p class="chart-description">
+                Normalized creation and breaking rates account for differences in the number of games played.
+            </p>
+            <div class="chart-wrapper">
+                <canvas id="rateChart"></canvas>
+            </div>
+        </section>
+
+        <section class="chart-card">
+            <h2 class="chart-title">Broken as a Share of Created</h2>
+            <p class="chart-description">
+                The percentage of a season's newly created Hoopagamis that were later broken during the same season.
+            </p>
+            <div class="chart-wrapper">
+                <canvas id="shareChart"></canvas>
+            </div>
+        </section>
+
+        <section class="chart-card">
+            <h2 class="chart-title">Cumulative Creation Gap</h2>
+            <p class="chart-description">
+                Running total of Hoopagamis created minus Hoopagamis broken across the selected range.
+            </p>
+            <div class="chart-wrapper">
+                <canvas id="gapChart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const trendData = {{ trend_data | tojson }};
+
+        const startSelect = document.getElementById("startSeason");
+        const endSelect = document.getElementById("endSeason");
+        const rangeLabel = document.getElementById("rangeLabel");
+
+        const seasons = trendData.map(item => item.season);
+
+        startSelect.add(new Option("All Seasons", "all"));
+        endSelect.add(new Option("All Seasons", "all"));
+
+        [...seasons].reverse().forEach(season => {
+            startSelect.add(new Option(season, season));
+            endSelect.add(new Option(season, season));
+        });
+
+        startSelect.value = "all";
+        endSelect.value = "all";
+
+        let charts = {};
+
+        function destroyCharts() {
+            Object.values(charts).forEach(chart => chart.destroy());
+            charts = {};
+        }
+
+        function updateFindings(data) {
+            if (!data.length) return;
+
+            const peakCreation = data.reduce((a, b) =>
+                b.created > a.created ? b : a
+            );
+
+            const peakRate = data.reduce((a, b) =>
+                b.created_per_100_games > a.created_per_100_games ? b : a
+            );
+
+            const totalCreated = data.reduce((sum, item) => sum + item.created, 0);
+            const totalBroken = data.reduce((sum, item) => sum + item.broken, 0);
+            const gap = totalCreated - totalBroken;
+
+            document.getElementById("peakCreation").textContent =
+                peakCreation.created.toLocaleString();
+
+            document.getElementById("peakCreationText").textContent =
+                peakCreation.season + " had the most creations.";
+
+            document.getElementById("peakRate").textContent =
+                peakRate.created_per_100_games.toFixed(1);
+
+            document.getElementById("peakRateText").textContent =
+                "created per 100 games in " + peakRate.season + ".";
+
+            document.getElementById("currentGap").textContent =
+                (gap >= 0 ? "+" : "") + gap.toLocaleString();
+
+            document.getElementById("currentGapText").textContent =
+                "Net creation gap across the selected range.";
+        }
+
+        function buildCharts() {
+            let startIndex = startSelect.value === "all" ? 0 : seasons.indexOf(startSelect.value);
+            let endIndex = endSelect.value === "all" ? seasons.length - 1 : seasons.indexOf(endSelect.value);
+
+            if (startIndex > endIndex) {
+                [startIndex, endIndex] = [endIndex, startIndex];
+                startSelect.value = seasons[startIndex];
+                endSelect.value = seasons[endIndex];
+            }
+
+            const data = trendData.slice(startIndex, endIndex + 1);
+            const labels = data.map(item => item.season);
+
+            rangeLabel.textContent =
+                `${labels[0]} → ${labels[labels.length - 1]} · ${labels.length} seasons`;
+
+            updateFindings(data);
+            destroyCharts();
+
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: "index",
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                family: "DM Sans",
+                                weight: "700"
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 60,
+                            minRotation: 45
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            };
+
+            charts.createdBroken = new Chart(
+                document.getElementById("createdBrokenChart"),
+                {
+                    type: "line",
+                    data: {
+                        labels,
+                        datasets: [
+                            {
+                                label: "Created",
+                                data: data.map(item => item.created),
+                                borderColor: "#B94A2C",
+                                backgroundColor: "rgba(185, 74, 44, 0.10)",
+                                borderWidth: 3,
+                                pointRadius: 3,
+                                tension: 0.25
+                            },
+                            {
+                                label: "Broken",
+                                data: data.map(item => item.broken),
+                                borderColor: "#252A34",
+                                backgroundColor: "rgba(37, 42, 52, 0.08)",
+                                borderWidth: 3,
+                                pointRadius: 3,
+                                tension: 0.25
+                            }
+                        ]
+                    },
+                    options: commonOptions
+                }
+            );
+
+            charts.rate = new Chart(
+                document.getElementById("rateChart"),
+                {
+                    type: "line",
+                    data: {
+                        labels,
+                        datasets: [
+                            {
+                                label: "Created / 100 Games",
+                                data: data.map(item => item.created_per_100_games),
+                                borderColor: "#B94A2C",
+                                borderWidth: 3,
+                                pointRadius: 3,
+                                tension: 0.25
+                            },
+                            {
+                                label: "Broken / 100 Games",
+                                data: data.map(item => item.broken_per_100_games),
+                                borderColor: "#252A34",
+                                borderWidth: 3,
+                                pointRadius: 3,
+                                tension: 0.25
+                            }
+                        ]
+                    },
+                    options: {
+                        ...commonOptions,
+                        scales: {
+                            ...commonOptions.scales,
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: "Per 100 Games"
+                                }
+                            }
+                        }
+                    }
+                }
+            );
+
+            const share = data.map(item =>
+                item.created ? (item.broken / item.created) * 100 : 0
+            );
+
+            charts.share = new Chart(
+                document.getElementById("shareChart"),
+                {
+                    type: "line",
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: "Broken / Created",
+                            data: share,
+                            borderColor: "#765548",
+                            backgroundColor: "rgba(118, 85, 72, 0.10)",
+                            borderWidth: 3,
+                            pointRadius: 3,
+                            tension: 0.25,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        ...commonOptions,
+                        scales: {
+                            ...commonOptions.scales,
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: "Percent"
+                                },
+                                ticks: {
+                                    callback: value => value + "%"
+                                }
+                            }
+                        }
+                    }
+                }
+            );
+
+            let runningGap = 0;
+            const cumulativeGap = data.map(item => {
+                runningGap += item.created - item.broken;
+                return runningGap;
+            });
+
+            charts.gap = new Chart(
+                document.getElementById("gapChart"),
+                {
+                    type: "line",
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: "Cumulative Gap",
+                            data: cumulativeGap,
+                            borderColor: "#B94A2C",
+                            backgroundColor: "rgba(185, 74, 44, 0.10)",
+                            borderWidth: 3,
+                            pointRadius: 3,
+                            tension: 0.25,
+                            fill: true
+                        }]
+                    },
+                    options: commonOptions
+                }
+            );
+        }
+
+        startSelect.addEventListener("change", buildCharts);
+        endSelect.addEventListener("change", buildCharts);
+
+                buildCharts();
+    </script>
+</body>
+</html>
