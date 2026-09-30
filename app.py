@@ -4,8 +4,9 @@ import pandas as pd
 
 app = Flask(__name__)
 
-CSV_PATH = "/Users/bouyea/Hoopagami/NBA_PlayerStatistics_Complete.csv"
-RANKS_PATH = "/Users/bouyea/Hoopagami/statline_ranks.csv"
+BASE_DIR = Path(__file__).resolve().parent
+CSV_PATH = BASE_DIR / "NBA_PlayerStatistics_Complete.csv"
+RANKS_PATH = BASE_DIR / "statline_ranks.csv"
 
 df = pd.read_csv(CSV_PATH)
 ranks_df = pd.read_csv(RANKS_PATH)
