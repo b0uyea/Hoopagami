@@ -969,10 +969,10 @@ def search():
     if not first_match.empty:
         first_row = first_match.iloc[0]
         first_record = {
-            "player": f"{first_row["firstName"]} {first_row["lastName"]}",
+            "player": f"{first_row['firstName']} {first_row['lastName']}",
             "date": format_game_date(first_row["gameDateTimeEst"]),
-            "team": f"{first_row["playerteamCity"]} {first_row["playerteamName"]}",
-            "opponent": f"{first_row["opponentteamCity"]} {first_row["opponentteamName"]}",
+            "team": f"{first_row['playerteamCity']} {first_row['playerteamName']}",
+            "opponent": f"{first_row['opponentteamCity']} {first_row['opponentteamName']}",
             "game_type": format_game_type(first_row),
             "game_id": str(first_row["gameId"]),
             "box_score_url": box_score_url(first_row["gameId"]),
@@ -981,11 +981,11 @@ def search():
     results = []
     for _, row in matches.iterrows():
         results.append({
-            "player": f"{row["firstName"]} {row["lastName"]}",
+            "player": f"{row['firstName']} {row['lastName']}",
             "player_id": str(row["personId"]).replace(".0", ""),
             "date": format_game_date(row["gameDateTimeEst"]),
-            "team": f"{row["playerteamCity"]} {row["playerteamName"]}",
-            "opponent": f"{row["opponentteamCity"]} {row["opponentteamName"]}",
+            "team": f"{row['playerteamCity']} {row['playerteamName']}",
+            "opponent": f"{row['opponentteamCity']} {row['opponentteamName']}",
             "game_type": format_game_type(row),
             "game_id": str(row["gameId"]),
             "is_first": (
@@ -1537,42 +1537,39 @@ def common():
         ascending=[False, True]
     ).head(100)
 
+    common_statlines = set(common_df["statline_key"])
+
+    recent_df = df[
+        df["statline_key"].isin(common_statlines)
+        & (df["gameType"].astype(str) != "Excluded")
+    ].copy()
+
+    recent_df = recent_df.sort_values("gameDateTimeEst")
+    recent_df = recent_df.drop_duplicates("statline_key", keep="last")
+
+    recent_games = {}
+
+    for _, row in recent_df.iterrows():
+        recent_games[row["statline_key"]] = {
+            "player": f"{row['firstName']} {row['lastName']}",
+            "player_id": str(row["personId"]).replace(".0", ""),
+            "date": format_game_date(row["gameDateTimeEst"]),
+            "team": f"{row['playerteamCity']} {row['playerteamName']}",
+            "opponent": f"{row['opponentteamCity']} {row['opponentteamName']}",
+            "game_type": format_game_type(row),
+            "box_score_url": box_score_url(row["gameId"]),
+        }
+
     results = []
 
     for _, rank in common_df.iterrows():
         statline = rank["statline_key"]
 
-        matches = df[
-            (df["statline_key"] == statline)
-            & (df["gameType"].astype(str) != "Excluded")
-        ].copy()
-
-        most_recent = None
-
-        if not matches.empty:
-            matches["gameDateTimeEst"] = pd.to_datetime(
-                matches["gameDateTimeEst"],
-                errors="coerce"
-            )
-            matches = matches.sort_values("gameDateTimeEst")
-
-            row = matches.iloc[-1]
-
-            most_recent = {
-                "player": f"{row['firstName']} {row['lastName']}",
-                "player_id": str(row["personId"]).replace(".0", ""),
-                "date": format_game_date(row["gameDateTimeEst"]),
-                "team": f"{row['playerteamCity']} {row['playerteamName']}",
-                "opponent": f"{row['opponentteamCity']} {row['opponentteamName']}",
-                "game_type": format_game_type(row),
-                "box_score_url": box_score_url(row["gameId"]),
-            }
-
         results.append({
             "statline": statline,
             "occurrences": int(rank["historical_occurrences"]),
             "rarity_rank": int(rank["global_rarity_rank"]),
-            "most_recent": most_recent,
+            "most_recent": recent_games.get(statline),
         })
 
     return render_template("common.html", results=results)
