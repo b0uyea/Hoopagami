@@ -187,7 +187,10 @@ if BOOTSTRAP_ONLY:
     HISTORICAL_NEW_HOOPAGAMIS = []
     HISTORICAL_BROKEN_HOOPAGAMIS = []
 else:
+    import time
+    _t = time.time()
     HISTORICAL_NEW_HOOPAGAMIS, HISTORICAL_BROKEN_HOOPAGAMIS = get_historical_hoopagami_activity()
+    print(f"STARTUP historical: {time.time() - _t:.2f}s", flush=True)
 
 
 def get_all_time_hoopagami_leaderboard():
@@ -217,7 +220,9 @@ def get_all_time_hoopagami_leaderboard():
 if BOOTSTRAP_ONLY:
     ALL_TIME_HOOPAGAMI_LEADERBOARD = []
 else:
+    _t = time.time()
     ALL_TIME_HOOPAGAMI_LEADERBOARD = get_all_time_hoopagami_leaderboard()
+    print(f"STARTUP leaderboard: {time.time() - _t:.2f}s", flush=True)
 
 
 def get_current_nba_players():
@@ -243,7 +248,9 @@ def get_current_nba_players():
 if BOOTSTRAP_ONLY:
     CURRENT_NBA_PLAYERS = set()
 else:
+    _t = time.time()
     CURRENT_NBA_PLAYERS = get_current_nba_players()
+    print(f"STARTUP players: {time.time() - _t:.2f}s", flush=True)
 
 
 def get_all_time_hoopagami_ranks():
@@ -278,7 +285,9 @@ def get_all_time_hoopagami_ranks():
 if BOOTSTRAP_ONLY:
     ALL_TIME_HOOPAGAMI_RANKS = {}
 else:
+    _t = time.time()
     ALL_TIME_HOOPAGAMI_RANKS = get_all_time_hoopagami_ranks()
+    print(f"STARTUP ranks: {time.time() - _t:.2f}s", flush=True)
 
 def get_available_seasons():
     dates = pd.to_datetime(df["gameDateTimeEst"], errors="coerce").dropna()
@@ -411,7 +420,9 @@ def get_most_broken_leaderboard():
 if BOOTSTRAP_ONLY:
     MOST_BROKEN_LEADERBOARD = []
 else:
+    _t = time.time()
     MOST_BROKEN_LEADERBOARD = get_most_broken_leaderboard()
+    print(f"STARTUP broken: {time.time() - _t:.2f}s", flush=True)
 
 
 def get_current_players_most_broken_leaderboard():
