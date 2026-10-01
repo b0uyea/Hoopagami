@@ -117,6 +117,11 @@ if not BOOTSTRAP_ONLY:
 
     STAT_COLUMNS = ["points", "reboundsTotal", "assists", "steals", "blocks"]
 
+    statline_games = {
+        statline: group
+        for statline, group in df.groupby("statline_key", sort=False)
+    }
+
 
 def get_historical_hoopagami_activity():
     eligible_df = df[df["gameType"].astype(str) != "Excluded"].copy()
@@ -1614,7 +1619,7 @@ def rarest():
         statline = rank["statline_key"]
         parts = statline.split("/")
 
-        matches = df[df["statline_key"] == statline] if "statline_key" in df.columns else pd.DataFrame()
+        matches = statline_games.get(statline, pd.DataFrame())
 
         if not matches.empty:
             games = []
