@@ -17,7 +17,7 @@ if BOOTSTRAP_ONLY:
     df = pd.DataFrame()
     ranks_df = pd.DataFrame()
 else:
-    df = pd.read_csv(CSV_PATH)
+    df = pd.read_csv(CSV_PATH, low_memory=False)
     ranks_df = pd.read_csv(RANKS_PATH)
 
 @app.context_processor
@@ -583,44 +583,45 @@ def most_broken():
 
 
 def get_season_hoopagami_trends():
-    eligible_df = df[df["gameType"].astype(str) != "Excluded"].copy()
-    eligible_df["gameDateTimeEst"] = pd.to_datetime(
-        eligible_df["gameDateTimeEst"],
-        errors="coerce"
+    eligible_df = df[df["gameType"].astype(str) != "Excluded"].sort_values(
+        "gameDateTimeEst"
     )
-    eligible_df = eligible_df.sort_values("gameDateTimeEst")
 
     occurrence = eligible_df.groupby("statline_key").cumcount()
 
-    eligible_df["season_start_year"] = (
+    season_start_year = (
         eligible_df["gameDateTimeEst"].dt.year
         - (eligible_df["gameDateTimeEst"].dt.month < 8).astype(int)
     )
 
-    eligible_df["season"] = (
-        eligible_df["season_start_year"].astype(str)
+    season = (
+        season_start_year.astype(str)
         + "-"
-        + (eligible_df["season_start_year"] + 1).astype(str).str[-2:]
+        + (season_start_year + 1).astype(str).str[-2:]
     )
 
-    eligible_df["occurrence"] = occurrence
+    temp = pd.DataFrame({
+        "season": season,
+        "occurrence": occurrence,
+        "gameId": eligible_df["gameId"].values,
+    }, index=eligible_df.index)
 
     created = (
-        eligible_df[eligible_df["occurrence"] == 0]
+        temp[temp["occurrence"] == 0]
         .groupby("season")
         .size()
         .to_dict()
     )
 
     broken = (
-        eligible_df[eligible_df["occurrence"] == 1]
+        temp[temp["occurrence"] == 1]
         .groupby("season")
         .size()
         .to_dict()
     )
 
     games = (
-        eligible_df.groupby("season")["gameId"]
+        temp.groupby("season")["gameId"]
         .nunique()
         .to_dict()
     )
