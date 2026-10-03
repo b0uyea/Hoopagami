@@ -1089,7 +1089,11 @@ def player_autocomplete():
     return {"players": matches[:10]}
 
 
-def get_player_hoopagami_trends(player_name):
+from functools import lru_cache
+
+
+@lru_cache(maxsize=1)
+def _player_trend_frames():
     eligible_df = df[df["gameType"].astype(str) != "Excluded"].copy()
     eligible_df["gameDateTimeEst"] = pd.to_datetime(
         eligible_df["gameDateTimeEst"],
@@ -1113,15 +1117,22 @@ def get_player_hoopagami_trends(player_name):
     created_df = eligible_df[occurrence == 0].copy()
     broken_df = eligible_df[occurrence == 1].copy()
 
-    player_mask_created = (
-        created_df["firstName"].astype(str) + " " +
-        created_df["lastName"].astype(str)
-    ).str.lower() == player_name.lower()
+    frames = []
+    for frame in (created_df, broken_df):
+        frame["name_lower"] = (
+            frame["firstName"].astype(str) + " " +
+            frame["lastName"].astype(str)
+        ).str.lower()
+        frames.append(frame[["season", "name_lower"]])
 
-    player_mask_broken = (
-        broken_df["firstName"].astype(str) + " " +
-        broken_df["lastName"].astype(str)
-    ).str.lower() == player_name.lower()
+    return frames[0], frames[1]
+
+
+def get_player_hoopagami_trends(player_name):
+    created_df, broken_df = _player_trend_frames()
+
+    player_mask_created = created_df["name_lower"] == player_name.lower()
+    player_mask_broken = broken_df["name_lower"] == player_name.lower()
 
     created_counts = (
         created_df[player_mask_created]
