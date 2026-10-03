@@ -857,7 +857,7 @@ def search():
 
     search_display = " / ".join(display_parts)
 
-    matches = df.copy()
+    matches = df
 
     for column, value in zip(stat_columns, parts):
         if value is None:
