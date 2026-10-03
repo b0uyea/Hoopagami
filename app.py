@@ -113,6 +113,10 @@ if not BOOTSTRAP_ONLY:
         df.loc[df["historical_untracked_defense"], "assists"].astype(int).astype(str) + "/-/-"
     )
 
+    _t = time.time()
+    statline_index = df.groupby("statline_key").indices
+    print(f"STARTUP statline_index: {time.time() - _t:.2f}s", flush=True)
+
     statline_counts = df.groupby(["points", "reboundsTotal", "assists", "steals", "blocks"]).size().to_dict()
 
     STAT_COLUMNS = ["points", "reboundsTotal", "assists", "steals", "blocks"]
@@ -1519,7 +1523,7 @@ def statline_detail(statline):
 
     rank = rank_match.iloc[0]
 
-    matches = df[df["statline_key"] == normalized].copy()
+    matches = df.iloc[statline_index.get(normalized, [])]
 
     results = []
 
