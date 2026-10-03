@@ -964,7 +964,7 @@ def search():
 
         historical_occurrences = len(occurrence_matches)
 
-    first_match = df[df["gameType"].astype(str) != "Excluded"].copy()
+    first_match = df
 
     for column, value in zip(stat_columns, parts):
         if value is None:
@@ -974,6 +974,8 @@ def search():
             first_match = first_match[first_match[column] >= value]
         else:
             first_match = first_match[first_match[column] == value]
+
+    first_match = first_match[first_match["gameType"].astype(str) != "Excluded"].copy()
 
     first_match["gameDateTimeEst"] = pd.to_datetime(
         first_match["gameDateTimeEst"],
