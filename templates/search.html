@@ -884,7 +884,7 @@ main.content {
                                 <div>{{ result.team }} vs. {{ result.opponent }}</div>
                                 <div>{{ result.game_type }}</div>
                                 {% if show_actual_statline %}
-                                    <div class="actual-statline"><strong><a href="/statline/{{ result.actual_statline }}">{{ result.actual_statline }}</a></strong></div>
+                                    <div class="actual-statline"><strong><a href="/search?statline={{ result.actual_statline | urlencode }}">{{ result.actual_statline }}</a></strong></div>
                                 {% endif %}
                             </div>
 
