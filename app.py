@@ -1631,7 +1631,7 @@ def rarest():
         statline = rank["statline_key"]
         parts = statline.split("/")
 
-        matches = df[df["statline_key"] == statline] if "statline_key" in df.columns else pd.DataFrame()
+        matches = df.iloc[statline_index.get(statline, [])]
 
         if not matches.empty:
             games = []
