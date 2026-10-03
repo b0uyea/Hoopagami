@@ -692,6 +692,17 @@ main.content {
     text-decoration-thickness: 3px;
     text-underline-offset: 4px;
 }
+.actual-statline a {
+    color: var(--deep-navy);
+    text-decoration: none;
+    transition: color .15s ease;
+}
+.actual-statline a:hover {
+    color: var(--burnt-orange);
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 4px;
+}
 </style>
 </head>
 
@@ -749,6 +760,10 @@ main.content {
         {% endif %}
         {% if from_rarest %}
             <a href="/rarest" class="back-menu" style="margin-left: 18px;">← Back to Rarest Statlines</a>
+        {% endif %}
+
+        {% if from_search %}
+            <a href="/search?statline={{ from_search | urlencode }}&mode={{ from_search_mode | urlencode }}&game_type={{ from_search_game | urlencode }}&season={{ from_search_season | urlencode }}&sort={{ from_search_sort | urlencode }}" class="back-menu" style="margin-left: 18px;">← Back to Search</a>
         {% endif %}
 
         <h1 class="section-title">Search Statline</h1>
@@ -884,7 +899,7 @@ main.content {
                                 <div>{{ result.team }} vs. {{ result.opponent }}</div>
                                 <div>{{ result.game_type }}</div>
                                 {% if show_actual_statline %}
-                                    <div class="actual-statline"><strong><a href="/search?statline={{ result.actual_statline | urlencode }}">{{ result.actual_statline }}</a></strong></div>
+                                    <div class="actual-statline"><strong><a href="/search?statline={{ result.actual_statline | urlencode }}&from_search={{ statline | urlencode }}&from_search_mode={{ search_mode | urlencode }}&from_search_game={{ game_filter | urlencode }}&from_search_season={{ season_filter | urlencode }}&from_search_sort={{ sort_filter | urlencode }}">{{ result.actual_statline }}</a></strong></div>
                                 {% endif %}
                             </div>
 

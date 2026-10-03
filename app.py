@@ -793,6 +793,11 @@ def search():
     from_broken = request.args.get("from_broken", "").strip()
 
     search_mode = request.args.get("mode", "exact")
+    from_search = request.args.get("from_search", "").strip()
+    from_search_mode = request.args.get("from_search_mode", "exact")
+    from_search_game = request.args.get("from_search_game", "all")
+    from_search_season = request.args.get("from_search_season", "all")
+    from_search_sort = request.args.get("from_search_sort", "newest")
 
     if not statline:
         return render_template(
@@ -1051,6 +1056,11 @@ def search():
         from_rarest=from_rarest,
         from_broken=from_broken,
         from_new=from_new,
+        from_search=from_search,
+        from_search_mode=from_search_mode,
+        from_search_game=from_search_game,
+        from_search_season=from_search_season,
+        from_search_sort=from_search_sort,
         page=page,
         has_more=has_more,
         total_results=total_results
