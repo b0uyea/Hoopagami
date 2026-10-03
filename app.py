@@ -113,6 +113,7 @@ if not BOOTSTRAP_ONLY:
         df.loc[df["historical_untracked_defense"], "assists"].astype(int).astype(str) + "/-/-"
     )
 
+    import time
     _t = time.time()
     statline_index = df.groupby("statline_key").indices
     print(f"STARTUP statline_index: {time.time() - _t:.2f}s", flush=True)
