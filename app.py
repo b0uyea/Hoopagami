@@ -1057,6 +1057,21 @@ def search():
     )
 
 
+_UNIQUE_NAMES_CACHE = []
+
+
+def _unique_player_names():
+    if not _UNIQUE_NAMES_CACHE:
+        _UNIQUE_NAMES_CACHE.append(
+            (
+                df["firstName"].astype(str).str.strip()
+                + " "
+                + df["lastName"].astype(str).str.strip()
+            ).drop_duplicates().reset_index(drop=True)
+        )
+    return _UNIQUE_NAMES_CACHE[0]
+
+
 @app.route("/player/autocomplete")
 def player_autocomplete():
     query = request.args.get("q", "").strip().lower()
@@ -1064,11 +1079,7 @@ def player_autocomplete():
     if not query:
         return {"players": []}
 
-    player_names = (
-        df["firstName"].astype(str).str.strip()
-        + " "
-        + df["lastName"].astype(str).str.strip()
-    ).drop_duplicates()
+    player_names = _unique_player_names()
 
     lower_names = player_names.str.lower()
     first_names = lower_names.str.split().str[0]
