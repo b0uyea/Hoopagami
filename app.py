@@ -907,9 +907,7 @@ def search():
             int(rank_match.iloc[0]["global_rarity_rank"])
             if not rank_match.empty else None
         )
-        occurrence_matches = df[
-            df["gameType"].astype(str) != "Excluded"
-        ].copy()
+        occurrence_matches = df
 
         if game_filter == "regular":
             occurrence_matches = occurrence_matches[
@@ -930,11 +928,12 @@ def search():
                     occurrence_matches[column] == value
                 ]
 
+        occurrence_matches = occurrence_matches[
+            occurrence_matches["gameType"].astype(str) != "Excluded"
+        ]
         historical_occurrences = len(occurrence_matches)
     else:
-        occurrence_matches = df[
-            df["gameType"].astype(str) != "Excluded"
-        ].copy()
+        occurrence_matches = df
 
         if game_filter == "regular":
             occurrence_matches = occurrence_matches[
@@ -962,6 +961,9 @@ def search():
                     occurrence_matches[column] == value
                 ]
 
+        occurrence_matches = occurrence_matches[
+            occurrence_matches["gameType"].astype(str) != "Excluded"
+        ]
         historical_occurrences = len(occurrence_matches)
 
     first_match = df
