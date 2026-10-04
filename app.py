@@ -1224,9 +1224,7 @@ def player_search():
     player_trend_data = []
 
     if player_query:
-        search_mask = (
-            df["firstName"].astype(str) + " " + df["lastName"].astype(str)
-        ).str.contains(player_query, case=False, na=False)
+        search_mask = _full_names().str.contains(player_query, case=False, na=False)
 
         matches = df[search_mask].copy()
 
@@ -1707,6 +1705,26 @@ def rarest():
         query=search_query,
         occurrence_filter=occurrence_filter
     )
+
+
+_FULL_NAMES_CACHE = []
+
+
+def _full_names():
+    if not _FULL_NAMES_CACHE:
+        _FULL_NAMES_CACHE.append(
+            df["firstName"].astype(str) + " " + df["lastName"].astype(str)
+        )
+    return _FULL_NAMES_CACHE[0]
+
+
+if not BOOTSTRAP_ONLY:
+    import time as _time
+    _t = _time.time()
+    _full_names()
+    _player_trend_frames()
+    _unique_player_names()
+    print(f"STARTUP player_cache: {_time.time() - _t:.2f}s", flush=True)
 
 
 if __name__ == "__main__":
